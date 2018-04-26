@@ -23,7 +23,7 @@ public class User {
   private final String name;
   private final String passwordHash;
   private final Instant creation;
-  public ProfilePage profile;
+  private String aboutMe;
 
   /**
    * Constructs a new User.
@@ -38,7 +38,7 @@ public class User {
     this.name = name;
     this.passwordHash = password;
     this.creation = creation;
-    profile = new ProfilePage(this);
+    aboutMe = "";
   }
 
   /** Returns the ID of this User. */
@@ -61,8 +61,13 @@ public class User {
     return creation;
   }
   
-  /** Returns the Profile Page of this User. */
-  public ProfilePage getProfilePage() {
-    return profile;
+  /** Returns the "About me" of this User. */
+  public String getAboutMe() {
+    return aboutMe;
+  }
+  
+  /** Sets the "About me" of this User. */
+  public void setAboutMe(String description) {
+     aboutMe =  description;
   }
 }

@@ -17,7 +17,6 @@ package codeu.model.store.persistence;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
-import codeu.model.data.ProfilePage;
 import codeu.model.store.persistence.PersistentDataStoreException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -147,39 +146,7 @@ public class PersistentDataStore {
     return messages;
   }
 
-  /**
-   * Loads all ProfilePage objects from the Datastore service and returns them in a List.
-   *
-   * @throws PersistentDataStoreException if an error was detected during the load from the
-   *     Datastore service
-   */
-  public List<ProfilePage> loadProfilePages() throws PersistentDataStoreException {
 
-    List<ProfilePage> profilepages = new ArrayList<>();
-
-    // Retrieve all users from the datastore.
-    Query query = new Query("chat-profiles");
-    PreparedQuery results = datastore.prepare(query);
-
-    for (Entity entity : results.asIterable()) {
-      try {
-        UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
-        String userName = (String) entity.getProperty("username");
-        String password = (String) entity.getProperty("password");
-        Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-        User user = new User(uuid, userName, password, creationTime);
-        ProfilePage profilepage = new ProfilePage(user);
-        profilepages.add(profilepage);
-      } catch (Exception e) {
-        // In a production environment, errors should be very rare. Errors which may
-        // occur include network errors, Datastore service errors, authorization errors,
-        // database entity definition mismatches, or service mismatches.
-        throw new PersistentDataStoreException(e);
-      }
-    }
-
-    return profilepages;
-  }
 
   /** Write a User object to the Datastore service. */
   public void writeThrough(User user) {
@@ -212,13 +179,5 @@ public class PersistentDataStore {
     datastore.put(conversationEntity);
   }
 
-  /** Write a ProfilePage object to the Datastore service. */
-  public void writeThrough(ProfilePage profilepage) {
-    Entity profileEntity = new Entity("chat-profiles");
-    profileEntity.setProperty("aboutMe", profilepage.getAboutMe());
-    profileEntity.setProperty("name", profilepage.getName());
-    profileEntity.setProperty("user", profilepage.getUser());
-    profileEntity.setProperty("recentConvos", profilepage.getRecentConvos().toString());
-    datastore.put(profileEntity);
-  }
+
 }
