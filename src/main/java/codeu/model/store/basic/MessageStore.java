@@ -17,6 +17,7 @@ package codeu.model.store.basic;
 import codeu.model.data.Message;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -106,4 +107,29 @@ public class MessageStore {
   public void setMessages(List<Message> messages) {
     this.messages = messages;
   }
+  
+  public List<Message> getRecentMessages(UUID authorID, int recent){
+	  ArrayList<Message> userMessages = new ArrayList<Message>();
+	  for(int i = 0; i < messages.size(); i++){
+		  Message crntMessage = messages.get(i);
+		  if(crntMessage.getAuthorId().equals(authorID)){
+			  userMessages.add(crntMessage);
+		  }
+	  }
+	  userMessages.sort( new Comparator<Message>(){
+		@Override
+		public int compare(Message o1, Message o2) {
+			return o1.getCreationTime().compareTo(o2.getCreationTime());
+		}	  
+	  });
+	  
+	  if(recent < userMessages.size()){
+		  return userMessages.subList(0, recent);	  
+	  }
+	  else{
+		  return userMessages;
+	  }
+  }
+  
 }
+
