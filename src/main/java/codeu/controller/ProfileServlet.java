@@ -17,7 +17,13 @@ public class ProfileServlet extends HttpServlet {
         super.init();
         setUserStore(UserStore.getInstance());
     }
-    /*
+    
+    /** Sets the userStor for this Servlet*/
+    private void setUserStore(UserStore instance) {
+    	userStore = instance;
+	}
+    
+	/**
      * Get the profile page
      */
     @Override
@@ -31,23 +37,35 @@ public class ProfileServlet extends HttpServlet {
         request.setAttribute("profile", user);
         request.getRequestDispatcher("/WEB-INF/view/profilepage.jsp").forward(request, response);
     }
-    /*
+    /**
      * Change about me
      */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
         
+<<<<<<< HEAD
         String username = (String) request.getSession.getAttribute("user");
+=======
+        String username =  (String) request.getSession().getAttribute("user");
+>>>>>>> 7eafd17cdb0596bfbd276ab1db83dab27a809794
         User user = userStore.getUser(username);
-        User profile = userStore.getUser(request.getAttribute("profile"));
+        User profile = userStore.getUser((String) request.getAttribute("profile"));
         
         if (!user.getId().equals(profile.getId())) {
+<<<<<<< HEAD
             response.sendRedirect("/profile");
             return;
         }
         
         String aboutMe = request.getParameter("aboutme");
+=======
+            response.sendRedirect("/chat");
+            return;
+        }
+        
+        String aboutMe = profile.getAboutMe();
+>>>>>>> 7eafd17cdb0596bfbd276ab1db83dab27a809794
         user.setAboutMe(aboutMe);
         
     }
