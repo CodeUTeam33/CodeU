@@ -38,16 +38,16 @@ public class ProfileServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
         
-        String username = request.getParameter("username");
+        String username = (String) request.getSession.getAttribute("user");
         User user = userStore.getUser(username);
         User profile = userStore.getUser(request.getAttribute("profile"));
         
-        if (!user.equals(profile)) {
-            response.sendRedirect("/chat");
+        if (!user.getId().equals(profile.getId())) {
+            response.sendRedirect("/profile");
             return;
         }
         
-        String aboutMe = request.getParameter("aboutMe");
+        String aboutMe = request.getParameter("aboutme");
         user.setAboutMe(aboutMe);
         
     }
