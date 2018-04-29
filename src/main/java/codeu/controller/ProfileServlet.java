@@ -20,7 +20,7 @@ public class ProfileServlet extends HttpServlet {
     
     /** Sets the userStor for this Servlet*/
     private void setUserStore(UserStore instance) {
-     userStore = instance;
+     this.userStore = instance;
  }
     
  /**
@@ -44,7 +44,7 @@ public class ProfileServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
         
-        String username = (String) request.getSession.getAttribute("user");
+        String username = (String) request.getSession().getAttribute("user");
         User user = userStore.getUser(username);
         User profile = userStore.getUser((String) request.getAttribute("profile"));
         
