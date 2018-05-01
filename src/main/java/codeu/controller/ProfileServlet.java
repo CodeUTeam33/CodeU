@@ -35,7 +35,7 @@ public class ProfileServlet extends HttpServlet {
         User user = userStore.getUser(userPage.substring(6));
         
         request.setAttribute("profile", user);
-        request.getRequestDispatcher("/WEB-INF/view/profilepage.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
     }
     /**
      * Change about me

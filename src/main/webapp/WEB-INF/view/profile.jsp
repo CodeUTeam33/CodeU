@@ -14,10 +14,14 @@
      <a href="/register">Register</a>
    <% } %>
    <a href="/about.jsp">About</a>
+   <a href="/profile">Profile</a>
  </nav>
 
  <div id="container">
-   <h1>Profile</h1>
+   <% if(request.getAttribute("error") != null){ %>
+        <% User user = (User)request.getAttribute("user");%>
+        <h2 style="color:red"><%= request.getAttribute("error") %></h2>
+    <% } %>
 
    <form action="/profile" method="POST">
      <label for="username">Username: </label>
