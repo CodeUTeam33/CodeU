@@ -19,13 +19,10 @@
  </nav>
 
  <div id="container">
-   <% if(request.getAttribute("error") != null){ %>
-        <% User user = (User)request.getAttribute("user");%>
-        <h2 style="color:red"><%= request.getAttribute("error") %></h2>
-    <% } %>
+
 
    <form action="/profile" method="POST">
-     <label for="username">Username: </label>
+     <label for="username">Username: <%=  request.getSession().getAttribute("user")%></label>
      <input type="text" name="username" id="username">
      <br/>
      <label for="aboutme">AboutMe: </label>
