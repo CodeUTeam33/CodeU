@@ -34,7 +34,7 @@
      <a href="/register">Register</a>
    <% } %>
    <a href="/about.jsp">About</a>
-   <a href="/profile">Profile</a>
+   <a href="/profile.jsp">Profile</a>
  </nav>
 
   <div id="container">
