@@ -1,9 +1,39 @@
+<%@ page import="java.util.List" %>
+<%@ page import="codeu.model.data.Conversation" %>
+<%@ page import="codeu.model.data.Message" %>
+<%@ page import="codeu.model.store.basic.UserStore" %>
+
+<%
+List<Message> messages = (List<Message>) request.getAttribute("messages");
+%>
+
 <html>
 <head>
- <title>Profile</title>
+ <% if(request.getSession().getAttribute("user") != null) { %>
+   <title><%= (request.getSession().getAttribute("user")) %>'s Profile</title>
+ <% } else { %>
+   <title>Profile</title>
+ <% } %>
  <link rel="stylesheet" href="/css/main.css">
- </head>
-<body>
+
+ <style>
+    #chat {
+      background-color: white;
+      height: 500px;
+      overflow-y: scroll
+    }
+  </style>
+
+  <script>
+    // scroll the chat div to the bottom
+    function scrollChat() {
+      var chatDiv = document.getElementById('chat');
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    };
+  </script>
+</head>
+<body onload="scrollChat()">
+
 	<nav>
    <a id="navTitle" href="/">CodeU Chat App</a>
    <a href="/conversations">Conversations</a>
@@ -19,13 +49,26 @@
  </nav>
 
  <div id="container">
+  
+  <% if(request.getSession().getAttribute("user") != null){ %>
+    <h1><%= request.getSession().getAttribute("user") %>'s Profile</h1>
+  <% } else { %>
+    <h1>Invalid</h1>
+  <% } %>
+    <hr/>
 
+  <% if(request.getSession().getAttribute("user") != null){ %>
+    <h2>About <%= request.getSession().getAttribute("user") %></h2>
+    <% if(request.getSession().getAttribute("aboutme") != null){ %>
+      <body><%= request.getSession().getAttribute("aboutme") %></body>
+      <% } %>
+  <% } else { %>
+    <h2>Invalid</h2>
+  <% } %>
+    <hr/>
 
    <form action="/profile" method="POST">
-     <label for="username">Username: <%=  request.getSession().getAttribute("user")%></label>
-     <input type="text" name="username" id="username">
-     <br/>
-     <label for="aboutme">AboutMe: </label>
+     <label for="aboutme">About Me: </label>
      <input type="text" name="aboutme" id="aboutme">
      <br/><br/>
      <button type="submit">Edit</button>
