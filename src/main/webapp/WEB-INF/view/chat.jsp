@@ -71,8 +71,11 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       for (Message message : messages) {
         String author = UserStore.getInstance()
           .getUser(message.getAuthorId()).getName();
+        String ID = UserStore.getInstance()
+                .getUser(message.getAuthorId()).getId().toString();
     %>
-      <li><strong><%= author %>:</strong> <%= message.getContent() %></li>
+    	
+      <li><strong><a href= "/profile/" <%= ID %> ><%= author %></a>:</strong> <%= message.getContent() %></li>
     <%
       }
     %>
