@@ -59,7 +59,7 @@ public class ProfileServlet extends HttpServlet {
         throws IOException, ServletException {
         
         String username = (String) request.getSession().getAttribute("user");
-        User user = request.getSession().getAttribute("user");
+        User user = userStore.getUser(username);
         User profile = (User) request.getAttribute("profile");
         
         if (!user.getId().equals(profile.getId())) {
