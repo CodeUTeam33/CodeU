@@ -10,18 +10,28 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ProfileServlet extends HttpServlet {
     
-     private UserStore userStore;
+    /** Store class that gives access to Users. */ 
+    private UserStore userStore;
+     
+     /** Store class that gives access to Messages. */
+     private MessageStore messageStore;
     
     @Override
     public void init() throws ServletException {
         super.init();
         setUserStore(UserStore.getInstance());
+        setMessageStore(MessageStore.getInstance());
     }
     
-    /** Sets the userStor for this Servlet*/
+    /** Sets the userStore for this Servlet*/
     private void setUserStore(UserStore instance) {
      this.userStore = instance;
  }
+    
+    /** Sets the messageStore for this Servlet*/
+    void setMessageStore(MessageStore messageStore) {
+    this.messageStore = messageStore;
+  }
     
  /**
      * Get the profile page
@@ -30,10 +40,15 @@ public class ProfileServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
         
-        String username = (String) request.getSession().getAttribute("user");
-        User user = userStore.getUser(username);
+        String requestUrl = request.getRequestURI();
+        String profileUUID = requestUrl.substring("/profile/".length());
+        
+        UUID userID = UUID.fromString(profileUUID);
+        User user = userStore.getUSer(userID);
+        List<Message> messages = messageStore.getRecentMessages(userID, 10);
         
         request.setAttribute("profile", user);
+        request.setAttribute("recentMessages", messages);
         request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
     }
     /**
@@ -44,14 +59,14 @@ public class ProfileServlet extends HttpServlet {
         throws IOException, ServletException {
         
         String username = (String) request.getSession().getAttribute("user");
-        User user = userStore.getUser(username);
-        User profile = userStore.getUser((String) request.getAttribute("profile"));
-        /*
+        User user = request.getSession().getAttribute("user");
+        User profile = (User) request.getAttribute("profile");
+        
         if (!user.getId().equals(profile.getId())) {
             response.sendRedirect("/profile");
             return;
         }
-        */
+        
         String aboutMe = request.getParameter("aboutme");
         user.setAboutMe(aboutMe);
         
