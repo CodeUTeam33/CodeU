@@ -1,5 +1,7 @@
 package codeu.controller;
 
+import java.util.UUID;
+import java.util.List;
 import codeu.model.data.User;
 import codeu.model.data.Message;
 import codeu.model.store.basic.UserStore;
