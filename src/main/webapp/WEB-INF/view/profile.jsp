@@ -9,7 +9,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 <html>
 <head>
- <% if(request.getSession().getAttribute("profile") != null) { %>
+ <% if(request.getSession().getAttribute("profileName") != null) { %>
    <title><%= (request.getSession().getAttribute("profileName")) %>'s Profile</title>
  <% } else { %>
    <title>Profile</title>
@@ -50,14 +50,14 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
  <div id="container">
   
-  <% if(request.getSession().getAttribute("profile") != null){ %>
+  <% if(request.getSession().getAttribute("profileName") != null){ %>
     <h1><%= request.getSession().getAttribute("profileName") %>'s Profile</h1>
   <% } else { %>
     <h1>Invalid</h1>
   <% } %>
     <hr/>
 
-  <% if(request.getSession().getAttribute("profile") != null){ %>
+  <% if(request.getSession().getAttribute("profileName") != null){ %>
     <h2>About <%= request.getSession().getAttribute("profileName") %></h2>
     <% if(request.getSession().getAttribute("profileAboutMe") != null){ %>
       <body><%= request.getSession().getAttribute("profileAboutMe") %></body>
@@ -67,7 +67,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
   <% } %>
     <hr/>
 
-   <form action="/profile" method="POST">
+   <form action="/profile/"<%= request.getSession().getAttribute("userID") %> method="POST">
      <label for="aboutme">About Me: </label>
      <input type="text" name="aboutme" id="aboutme">
      <br/><br/>

@@ -80,6 +80,22 @@ public class UserStore {
     return null;
   }
 
+
+  /**
+   * Access the User object with the given ID String.
+   *
+   * @return null if UUID  does not match any existing User.
+   */
+  public User getUserWithID(String ID) {
+    // This approach will be pretty slow if we have many users.
+    for (User user : users) {
+      if (user.getId().toString().equals(ID)) {
+        return user;
+      }
+    }
+    return null;
+  }
+
   /**
    * Access the User object with the given UUID.
    *

@@ -3,6 +3,8 @@ package codeu.controller;
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +34,27 @@ public class ProfileServlet extends HttpServlet {
         
         String username = (String) request.getSession().getAttribute("user");
         User user = userStore.getUser(username);
+        String requestUrl = request.getRequestURI();
+        String ID = requestUrl.substring("/profile/".length());
+        User profileUser = userStore.getUser(UUID.fromString(ID));
         
-        request.setAttribute("profile", user);
+        String profileName =  profileUser.getName();
+        String profileAboutMe = profileUser.getAboutMe();
+        String profileID = profileUser.getId().toString();
+        String userID = user.getId().toString();
+        
+        System.out.println(profileName);
+        System.out.println(profileID);
+        System.out.println(profileAboutMe);
+        System.out.println(userID);
+        
+        request.setAttribute("profile", profileUser);
+        request.setAttribute("profileName", profileName);
+        request.setAttribute("profileAboutMe", profileAboutMe);
+        request.setAttribute("profileID", profileID);
+        request.setAttribute("userID", userID);
+
+
         request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
     }
     /**
