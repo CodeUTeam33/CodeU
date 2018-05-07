@@ -43,8 +43,8 @@ public class ConversationServletTest {
   private RequestDispatcher mockRequestDispatcher;
   private ConversationStore mockConversationStore;
   private UserStore mockUserStore;
-  private User mockUser;
-  private UUID mockID;
+ // private User mockUser;
+ // private UUID mockID;
 
   @Before
   public void setup() {
@@ -63,8 +63,8 @@ public class ConversationServletTest {
     conversationServlet.setConversationStore(mockConversationStore);
 
     mockUserStore = Mockito.mock(UserStore.class);
-    mockUser = Mockito.mock(User.class);
-    mockID = UUID.randomUUID();
+   // mockUser = Mockito.mock(User.class);
+   // mockID = UUID.randomUUID();
     
     conversationServlet.setUserStore(mockUserStore);
   }
@@ -75,18 +75,10 @@ public class ConversationServletTest {
     fakeConversationList.add(
         new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now()));
     Mockito.when(mockConversationStore.getAllConversations()).thenReturn(fakeConversationList);
-    
-
-    Mockito.when(mockRequest.getSession().getAttribute("user")).thenReturn("testUser");
-    Mockito.when(mockUserStore.getUser("testUser")).thenReturn(mockUser);
-    Mockito.when(mockUser.getId()).thenReturn(mockID);
-    
-
 
     conversationServlet.doGet(mockRequest, mockResponse);
 
     Mockito.verify(mockRequest).setAttribute("conversations", fakeConversationList);
-    Mockito.verify(mockRequest).setAttribute("userID", mockID.toString());
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
 

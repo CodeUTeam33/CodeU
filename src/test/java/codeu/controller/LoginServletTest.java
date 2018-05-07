@@ -43,6 +43,7 @@ public class LoginServletTest {
   private RequestDispatcher mockRequestDispatcher;
   private UserStore userStore;
   private User user;
+  private UUID mockID;
   private static final String USERNAME = "test_username";
   private static final String PASSWORD = "test_password";
   
@@ -56,8 +57,7 @@ public class LoginServletTest {
     mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
     Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/login.jsp"))
         .thenReturn(mockRequestDispatcher);
-    //TODO make a user and a usertore to be used in this class for test because we need existing users for the existing user do post test
-    
+    mockID = UUID.randomUUID();
   }
 
   @Test
@@ -132,7 +132,7 @@ public class LoginServletTest {
     	
     Mockito.when(userStore.getUser(USERNAME)).thenReturn(user);	
     Mockito.when(user.getPassword()).thenReturn(BCrypt.hashpw(PASSWORD, BCrypt.gensalt()));
-	
+    Mockito.when(user.getId()).thenReturn(mockID);
 	
     HttpSession mockSession = Mockito.mock(HttpSession.class);
     Mockito.when(mockRequest.getSession()).thenReturn(mockSession);

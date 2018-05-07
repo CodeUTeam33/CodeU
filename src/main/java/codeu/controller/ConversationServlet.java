@@ -71,11 +71,7 @@ public class ConversationServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     List<Conversation> conversations = conversationStore.getAllConversations();
-    String userName = (String) request.getSession().getAttribute("user");
-    User user = userStore.getUser(userName);
-    String ID = user.getId().toString();
     
-    request.setAttribute("userID", ID);
     request.setAttribute("conversations", conversations);
     request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
   }

@@ -56,13 +56,11 @@ public class ProfileServlet extends HttpServlet {
         String profileName =  profileUser.getName();
         String profileAboutMe = profileUser.getAboutMe();
         String profileID = profileUser.getId().toString();
-        String userID = user.getId().toString();
         
         request.setAttribute("profile", profileUser);
         request.setAttribute("profileName", profileName);
         request.setAttribute("profileAboutMe", profileAboutMe);
         request.setAttribute("profileID", profileID);
-        request.setAttribute("userID", userID);
 
         request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
     }

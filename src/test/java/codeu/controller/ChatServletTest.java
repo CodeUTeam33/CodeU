@@ -46,8 +46,6 @@ public class ChatServletTest {
   private ConversationStore mockConversationStore;
   private MessageStore mockMessageStore;
   private UserStore mockUserStore;
-  private User mockUser;
-  private UUID mockID;
   
   @Before
   public void setup() {
@@ -69,9 +67,6 @@ public class ChatServletTest {
     chatServlet.setMessageStore(mockMessageStore);
 
     mockUserStore = Mockito.mock(UserStore.class);
-    
-    mockUser = Mockito.mock(User.class);
-    mockID = UUID.randomUUID();
     chatServlet.setUserStore(mockUserStore);
   }
 
@@ -96,16 +91,11 @@ public class ChatServletTest {
     Mockito.when(mockMessageStore.getMessagesInConversation(fakeConversationId))
         .thenReturn(fakeMessageList);
     
-    Mockito.when(mockRequest.getSession().getAttribute("user")).thenReturn("testUser");
-    Mockito.when(mockUserStore.getUser("testUser")).thenReturn(mockUser);
-    Mockito.when(mockUser.getId()).thenReturn(mockID);
-
     chatServlet.doGet(mockRequest, mockResponse);
 
     Mockito.verify(mockRequest).setAttribute("conversation", fakeConversation);
     Mockito.verify(mockRequest).setAttribute("messages", fakeMessageList);
-    Mockito.verify(mockRequest).setAttribute("userID", mockID.toString());
-    Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
+       Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
 
   @Test
