@@ -43,11 +43,6 @@ public class ProfileServlet extends HttpServlet {
         String profileID = profileUser.getId().toString();
         String userID = user.getId().toString();
         
-        System.out.println(profileName);
-        System.out.println(profileID);
-        System.out.println(profileAboutMe);
-        System.out.println(userID);
-        
         request.setAttribute("profile", profileUser);
         request.setAttribute("profileName", profileName);
         request.setAttribute("profileAboutMe", profileAboutMe);

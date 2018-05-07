@@ -98,7 +98,13 @@ public class ChatServlet extends HttpServlet {
     UUID conversationId = conversation.getId();
 
     List<Message> messages = messageStore.getMessagesInConversation(conversationId);
-
+    
+    List<Conversation> conversations = conversationStore.getAllConversations();
+    String userName = (String) request.getSession().getAttribute("user");
+    User user = userStore.getUser(userName);
+    String ID = user.getId().toString();
+    
+    request.setAttribute("userID", ID);
     request.setAttribute("conversation", conversation);
     request.setAttribute("messages", messages);
     request.getRequestDispatcher("/WEB-INF/view/chat.jsp").forward(request, response);
