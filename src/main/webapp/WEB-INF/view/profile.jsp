@@ -9,8 +9,10 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 <html>
 <head>
+
  <% if(request.getAttribute("profileName") != null) { %>
    <title><%= (request.getAttribute("profileName")) %>'s Profile</title>
+
  <% } else { %>
    <title>Profile</title>
  <% } %>
@@ -50,24 +52,31 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
  <div id="container">
   
+
   <% if(request.getAttribute("profileName") != null){ %>
     <h1><%= request.getAttribute("profileName") %>'s Profile</h1>
+
   <% } else { %>
     <h1>Invalid</h1>
   <% } %>
     <hr/>
 
+
   <% if(request.getAttribute("profileName") != null){ %>
     <h2>About <%= request.getAttribute("profileName") %></h2>
     <% if(request.getAttribute("profileAboutMe") != null){ %>
       <body><%= request.getAttribute("profileAboutMe") %></body>
+
+
       <% } %>
   <% } else { %>
     <h2>Invalid</h2>
   <% } %>
     <hr/>
 
+
    <form action="/profile/"<%= request.getAttribute("userID") %> method="POST">
+
      <label for="aboutme">About Me: </label>
      <input type="text" name="aboutme" id="aboutme">
      <br/><br/>
