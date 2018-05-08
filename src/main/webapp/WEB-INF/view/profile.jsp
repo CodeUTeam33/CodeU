@@ -73,15 +73,35 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <h2>Invalid</h2>
   <% } %>
     <hr/>
-
+	
+	    <div id="chat">
+      <ul>
+    <%
+      for (Message message : messages) {
+        String author = UserStore.getInstance()
+          .getUser(message.getAuthorId()).getName();
+        String ID = UserStore.getInstance()
+                .getUser(message.getAuthorId()).getId().toString();
+        String URL = "/profile/" + ID;
+    %>
+    	
+      <li><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %></li>
+    <%
+      }
+    %>
+      </ul>
+    </div>
+	<%if(((String)request.getSession().getAttribute("userID")).equals(request.getAttribute("profileID"))){  %>
 
    <form action="/profile/"<%= request.getAttribute("userID") %> method="POST">
-
      <label for="aboutme">About Me: </label>
      <input type="text" name="aboutme" id="aboutme">
      <br/><br/>
      <button type="submit">Edit</button>
    </form>
+   <%} 
+   else{}%>
+   
 
 </div>
 </body>
