@@ -7,6 +7,8 @@ import codeu.model.data.Message;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.MessageStore;
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,15 +46,22 @@ public class ProfileServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
         
+
+        String username = (String) request.getSession().getAttribute("user");
+        User user = userStore.getUser(username);
         String requestUrl = request.getRequestURI();
-        String profileUUID = requestUrl.substring("/profile/".length());
+        String ID = requestUrl.substring("/profile/".length());
+        User profileUser = userStore.getUser(UUID.fromString(ID));
         
-        UUID userID = UUID.fromString(profileUUID);
-        User user = userStore.getUser(userID);
-        List<Message> messages = messageStore.getRecentMessages(userID, 10);
+        String profileName =  profileUser.getName();
+        String profileAboutMe = profileUser.getAboutMe();
+        String profileID = profileUser.getId().toString();
         
-        request.setAttribute("profile", user);
-        request.setAttribute("recentMessages", messages);
+        request.setAttribute("profile", profileUser);
+        request.setAttribute("profileName", profileName);
+        request.setAttribute("profileAboutMe", profileAboutMe);
+        request.setAttribute("profileID", profileID);
+
         request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
     }
     /**

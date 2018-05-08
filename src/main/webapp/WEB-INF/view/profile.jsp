@@ -9,8 +9,10 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 <html>
 <head>
- <% if(request.getSession().getAttribute("user") != null) { %>
-   <title><%= (request.getSession().getAttribute("user")) %>'s Profile</title>
+
+ <% if(request.getAttribute("profileName") != null) { %>
+   <title><%= (request.getAttribute("profileName")) %>'s Profile</title>
+
  <% } else { %>
    <title>Profile</title>
  <% } %>
@@ -39,7 +41,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
    <a href="/conversations">Conversations</a>
    <% if(request.getSession().getAttribute("user") != null){ %>
      <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
-     <a href="/profile">Profile</a>
+     <a href= <%= "/profile/" + request.getSession().getAttribute("userID") %>>Profile</a>
    <% } else{ %>
      <a href="/login">Login</a>
      <a href="/register">Register</a>
@@ -50,24 +52,31 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
  <div id="container">
   
-  <% if(request.getSession().getAttribute("user") != null){ %>
-    <h1><%= request.getSession().getAttribute("user") %>'s Profile</h1>
+
+  <% if(request.getAttribute("profileName") != null){ %>
+    <h1><%= request.getAttribute("profileName") %>'s Profile</h1>
+
   <% } else { %>
     <h1>Invalid</h1>
   <% } %>
     <hr/>
 
-  <% if(request.getSession().getAttribute("user") != null){ %>
-    <h2>About <%= request.getSession().getAttribute("user") %></h2>
-    <% if(request.getSession().getAttribute("aboutme") != null){ %>
-      <body><%= request.getSession().getAttribute("aboutme") %></body>
+
+  <% if(request.getAttribute("profileName") != null){ %>
+    <h2>About <%= request.getAttribute("profileName") %></h2>
+    <% if(request.getAttribute("profileAboutMe") != null){ %>
+      <body><%= request.getAttribute("profileAboutMe") %></body>
+
+
       <% } %>
   <% } else { %>
     <h2>Invalid</h2>
   <% } %>
     <hr/>
 
-   <form action="/profile" method="POST">
+
+   <form action="/profile/"<%= request.getAttribute("userID") %> method="POST">
+
      <label for="aboutme">About Me: </label>
      <input type="text" name="aboutme" id="aboutme">
      <br/><br/>

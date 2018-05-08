@@ -43,6 +43,8 @@ public class ConversationServletTest {
   private RequestDispatcher mockRequestDispatcher;
   private ConversationStore mockConversationStore;
   private UserStore mockUserStore;
+ // private User mockUser;
+ // private UUID mockID;
 
   @Before
   public void setup() {
@@ -61,6 +63,9 @@ public class ConversationServletTest {
     conversationServlet.setConversationStore(mockConversationStore);
 
     mockUserStore = Mockito.mock(UserStore.class);
+   // mockUser = Mockito.mock(User.class);
+   // mockID = UUID.randomUUID();
+    
     conversationServlet.setUserStore(mockUserStore);
   }
 

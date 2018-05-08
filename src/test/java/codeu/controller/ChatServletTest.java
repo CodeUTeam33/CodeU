@@ -46,7 +46,7 @@ public class ChatServletTest {
   private ConversationStore mockConversationStore;
   private MessageStore mockMessageStore;
   private UserStore mockUserStore;
-
+  
   @Before
   public void setup() {
     chatServlet = new ChatServlet();
@@ -90,12 +90,12 @@ public class ChatServletTest {
             Instant.now()));
     Mockito.when(mockMessageStore.getMessagesInConversation(fakeConversationId))
         .thenReturn(fakeMessageList);
-
+    
     chatServlet.doGet(mockRequest, mockResponse);
 
     Mockito.verify(mockRequest).setAttribute("conversation", fakeConversation);
     Mockito.verify(mockRequest).setAttribute("messages", fakeMessageList);
-    Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
+       Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
 
   @Test
