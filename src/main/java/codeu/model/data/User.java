@@ -46,6 +46,10 @@ public class User {
     return id;
   }
 
+  public String getStrId() {
+    return id.toString();
+  }
+
   /** Returns the username of this User. */
   public String getName() {
     return name;
