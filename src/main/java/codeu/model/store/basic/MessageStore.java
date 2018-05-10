@@ -18,6 +18,7 @@ import codeu.model.data.Message;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,11 +60,14 @@ public class MessageStore {
 
   /** The in-memory list of Messages. */
   private List<Message> messages;
+  
+  private HashMap<String,List<Message>> hashTags;
 
   /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
   private MessageStore(PersistentStorageAgent persistentStorageAgent) {
     this.persistentStorageAgent = persistentStorageAgent;
     messages = new ArrayList<>();
+    hashTags = new HashMap<>();
   }
 
   /**
@@ -86,6 +90,7 @@ public class MessageStore {
   /** Add a new message to the current set of messages known to the application. */
   public void addMessage(Message message) {
     messages.add(message);
+    parseMessage(message);
     persistentStorageAgent.writeThrough(message);
   }
 
@@ -105,7 +110,10 @@ public class MessageStore {
 
   /** Sets the List of Messages stored by this MessageStore. */
   public void setMessages(List<Message> messages) {
-    this.messages = messages;
+	  for(int i = 0; i < messages.size(); i++){
+		  addMessage(messages.get(i));
+	  }
+    //this.messages = messages;
   }
   
   public List<Message> getRecentMessages(UUID authorID, int recent){
@@ -129,6 +137,32 @@ public class MessageStore {
 	  else{
 		  return userMessages;
 	  }
+  }
+  
+  /** Inserts the message into the appropriate hashtag list if there is a hash tag*/
+  private void parseMessage(Message message){
+	  String content = message.getContent();
+	  String[] splitString = content.split(" ");
+	  
+	  for(int i = 0; i < splitString.length; i++){
+		  String crnt = splitString[i];
+		  if(crnt.startsWith("#")){
+			  List<Message> hashTagMessages = hashTags.get(crnt.substring(1));
+			  if(hashTagMessages == null){
+				 //hashTagMessages.add(message);
+				  List<Message> needToAdd = new ArrayList<Message>();
+				  needToAdd.add(message);
+				  hashTags.put(crnt.substring(1), needToAdd);
+			  }
+			  else{
+				  hashTagMessages.add(message);
+			  }
+		  }
+	  }
+  }
+  
+  public List<Message> getHashTagMessages(String tag){
+	  return hashTags.get(tag);
   }
   
 }
