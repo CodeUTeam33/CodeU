@@ -16,6 +16,8 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Class representing a message. Messages are sent by a User in a Conversation. */
 public class Message {
@@ -25,6 +27,8 @@ public class Message {
   private final UUID author;
   private final String content;
   private final Instant creation;
+  private int likesCount;
+  private List<User> userLikes;
 
   /**
    * Constructs a new Message.
@@ -41,6 +45,8 @@ public class Message {
     this.author = author;
     this.content = content;
     this.creation = creation;
+    this.likesCount = 0;
+    this.userLikes = new ArrayList<User>();
   }
 
   /** Returns the ID of this Message. */
@@ -66,5 +72,30 @@ public class Message {
   /** Returns the creation time of this Message. */
   public Instant getCreationTime() {
     return creation;
+  }
+  
+  /** Returns the number of likes for this Message. */
+  public int getLikeCount() {
+      return likesCount;
+  }
+  
+  /** Increments the number of likes to this Message by one. */
+  public void incrementLike() {
+      likesCount++;
+  }
+  
+  /** Returns the users who have liked the message. */
+  public List<User> getUserLikes() {
+      return userLikes;
+  }
+  
+  /** Returns true if the user has already liked the message. */
+  public boolean hasUserLiked(User user) {
+      return userLikes.contains(user);
+  }
+  
+  /** Adds users the list of users who have liked this message. */
+  public void userLikedMessage(User user) {
+      userLikes.add(user);
   }
 }

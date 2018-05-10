@@ -74,9 +74,20 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         String ID = UserStore.getInstance()
                 .getUser(message.getAuthorId()).getId().toString();
         String URL = "/profile/" + ID;
+        String instance = message.getCreationTime().toString();
     %>
-    	
-      <li><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %></li>
+
+      <form action="/chat/<%= conversation.getTitle() %>" method="POST">
+      	<input type="hidden" name="author" value= <%= ID %>>
+      	<input type="hidden" name="instance" value= <%= instance %>>
+      	<input type="hidden" name="like" value="true">
+  
+     	<tr align="right">
+      <td><li><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %> </td>
+      <td><button type="submit">Like</button> </p> <a> <%= message.getLikeCount()%> </a></td> </li>
+  		</tr>
+      
+    	</form>
     <%
       }
     %>

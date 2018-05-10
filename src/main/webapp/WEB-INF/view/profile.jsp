@@ -91,6 +91,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     %>
       </ul>
     </div>
+    <% if(request.getSession().getAttribute("user") != null) { %>
 	<%if(((String)request.getSession().getAttribute("userID")).equals(request.getAttribute("profileID"))){  %>
 
    <form action="/profile/"<%= request.getAttribute("userID") %> method="POST">
@@ -101,6 +102,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
    </form>
    <%} 
    else{}%>
+   <% } else { %>
+        <p><a href="/login">Login</a> to send a message.</p>
+    <% } %>
    
 
 </div>

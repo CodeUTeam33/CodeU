@@ -14,6 +14,7 @@
 
 package codeu.model.store.basic;
 
+import java.time.Instant;
 import codeu.model.data.Message;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
@@ -27,109 +28,124 @@ import java.util.UUID;
  * instance.
  */
 public class MessageStore {
-
-  /** Singleton instance of MessageStore. */
-  private static MessageStore instance;
-
-  /**
-   * Returns the singleton instance of MessageStore that should be shared between all servlet
-   * classes. Do not call this function from a test; use getTestInstance() instead.
-   */
-  public static MessageStore getInstance() {
-    if (instance == null) {
-      instance = new MessageStore(PersistentStorageAgent.getInstance());
+    
+    /** Singleton instance of MessageStore. */
+    private static MessageStore instance;
+    
+    /**
+     * Returns the singleton instance of MessageStore that should be shared between all servlet
+     * classes. Do not call this function from a test; use getTestInstance() instead.
+     */
+    public static MessageStore getInstance() {
+        if (instance == null) {
+            instance = new MessageStore(PersistentStorageAgent.getInstance());
+        }
+        return instance;
     }
-    return instance;
-  }
-
-  /**
-   * Instance getter function used for testing. Supply a mock for PersistentStorageAgent.
-   *
-   * @param persistentStorageAgent a mock used for testing
-   */
-  public static MessageStore getTestInstance(PersistentStorageAgent persistentStorageAgent) {
-    return new MessageStore(persistentStorageAgent);
-  }
-
-  /**
-   * The PersistentStorageAgent responsible for loading Messages from and saving Messages to
-   * Datastore.
-   */
-  private PersistentStorageAgent persistentStorageAgent;
-
-  /** The in-memory list of Messages. */
-  private List<Message> messages;
-
-  /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
-  private MessageStore(PersistentStorageAgent persistentStorageAgent) {
-    this.persistentStorageAgent = persistentStorageAgent;
-    messages = new ArrayList<>();
-  }
-
-  /**
-   * Load a set of randomly-generated Message objects.
-   *
-   * @return false if an error occurs.
-   */
-  public boolean loadTestData() {
-    boolean loaded = false;
-    try {
-      messages.addAll(DefaultDataStore.getInstance().getAllMessages());
-      loaded = true;
-    } catch (Exception e) {
-      loaded = false;
-      System.out.println("ERROR: Unable to establish initial store (messages).");
+    
+    /**
+     * Instance getter function used for testing. Supply a mock for PersistentStorageAgent.
+     *
+     * @param persistentStorageAgent a mock used for testing
+     */
+    public static MessageStore getTestInstance(PersistentStorageAgent persistentStorageAgent) {
+        return new MessageStore(persistentStorageAgent);
     }
-    return loaded;
-  }
-
-  /** Add a new message to the current set of messages known to the application. */
-  public void addMessage(Message message) {
-    messages.add(message);
-    persistentStorageAgent.writeThrough(message);
-  }
-
-  /** Access the current set of Messages within the given Conversation. */
-  public List<Message> getMessagesInConversation(UUID conversationId) {
-
-    List<Message> messagesInConversation = new ArrayList<>();
-
-    for (Message message : messages) {
-      if (message.getConversationId().equals(conversationId)) {
-        messagesInConversation.add(message);
-      }
+    
+    /**
+     * The PersistentStorageAgent responsible for loading Messages from and saving Messages to
+     * Datastore.
+     */
+    private PersistentStorageAgent persistentStorageAgent;
+    
+    /** The in-memory list of Messages. */
+    private List<Message> messages;
+    
+    /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
+    private MessageStore(PersistentStorageAgent persistentStorageAgent) {
+        this.persistentStorageAgent = persistentStorageAgent;
+        messages = new ArrayList<>();
     }
-
-    return messagesInConversation;
-  }
-
-  /** Sets the List of Messages stored by this MessageStore. */
-  public void setMessages(List<Message> messages) {
-    this.messages = messages;
-  }
-  
-  public List<Message> getRecentMessages(UUID authorID, int recent){
-	  ArrayList<Message> userMessages = new ArrayList<Message>();
-	  for(int i = 0; i < messages.size(); i++){
-		  Message crntMessage = messages.get(i);
-		  if(crntMessage.getAuthorId().equals(authorID)){
-			  userMessages.add(crntMessage);
-		  }
-	  }
-	  userMessages.sort( new Comparator<Message>(){
-		@Override
-		public int compare(Message o1, Message o2) {
-			return o1.getCreationTime().compareTo(o2.getCreationTime());
-		}	  
-	  });
-	  
-	  if(recent < userMessages.size()){
-		  return userMessages.subList(0, recent);	  
-	  }
-	  else{
-		  return userMessages;
-	  }
-  }
-  
+    
+    /**
+     * Load a set of randomly-generated Message objects.
+     *
+     * @return false if an error occurs.
+     */
+    public boolean loadTestData() {
+        boolean loaded = false;
+        try {
+            messages.addAll(DefaultDataStore.getInstance().getAllMessages());
+            loaded = true;
+        } catch (Exception e) {
+            loaded = false;
+            System.out.println("ERROR: Unable to establish initial store (messages).");
+        }
+        return loaded;
+    }
+    
+    /** Add a new message to the current set of messages known to the application. */
+    public void addMessage(Message message) {
+        messages.add(message);
+        persistentStorageAgent.writeThrough(message);
+    }
+    
+    /** Access the current set of Messages within the given Conversation. */
+    public List<Message> getMessagesInConversation(UUID conversationId) {
+        
+        List<Message> messagesInConversation = new ArrayList<>();
+        
+        for (Message message : messages) {
+            if (message.getConversationId().equals(conversationId)) {
+                messagesInConversation.add(message);
+            }
+        }
+        
+        return messagesInConversation;
+    }
+    
+    public Message getMessage(UUID conversationId, UUID author, Instant creation) {
+        List<Message> messages = getMessagesInConversation(conversationId);
+        
+        if (author == null || creation == null) {
+            return null;
+        }
+        
+        for (Message message : messages) {
+            if (message.getAuthorId().equals(author) && message.getCreationTime().equals(creation)) {
+                return message;
+            }
+        }
+        return null;
+    }
+    
+    /** Sets the List of Messages stored by this MessageStore. */
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+    
+    public List<Message> getRecentMessages(UUID authorID, int recent){
+        ArrayList<Message> userMessages = new ArrayList<Message>();
+        for(int i = 0; i < messages.size(); i++){
+            Message crntMessage = messages.get(i);
+            if(crntMessage.getAuthorId().equals(authorID)){
+                userMessages.add(crntMessage);
+            }
+        }
+        userMessages.sort( new Comparator<Message>(){
+            @Override
+            public int compare(Message o1, Message o2) {
+                return o1.getCreationTime().compareTo(o2.getCreationTime());
+            }   
+        });
+        
+        if(recent < userMessages.size()){
+            return userMessages.subList(0, recent);   
+        }
+        else{
+            return userMessages;
+        }
+    }
+    
 }
 

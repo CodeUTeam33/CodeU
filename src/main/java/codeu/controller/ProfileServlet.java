@@ -49,6 +49,12 @@ public class ProfileServlet extends HttpServlet {
 
         String username = (String) request.getSession().getAttribute("user");
         User user = userStore.getUser(username);
+        
+        if (user == null) {
+            response.sendRedirect("/login");
+            return;
+        }
+        
         String requestUrl = request.getRequestURI();
         String ID = requestUrl.substring("/profile/".length());
         User profileUser = userStore.getUser(UUID.fromString(ID));

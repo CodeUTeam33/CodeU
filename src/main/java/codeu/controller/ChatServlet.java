@@ -14,6 +14,7 @@
 
 package codeu.controller;
 
+import java.time.Instant;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
@@ -117,6 +118,7 @@ public class ChatServlet extends HttpServlet {
       throws IOException, ServletException {
 
     String username = (String) request.getSession().getAttribute("user");
+    request.setAttribute("image", "like.png");
     if (username == null) {
       // user is not logged in, don't let them add a message
       response.sendRedirect("/login");
@@ -129,6 +131,7 @@ public class ChatServlet extends HttpServlet {
       response.sendRedirect("/login");
       return;
     }
+    
 
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
@@ -138,6 +141,20 @@ public class ChatServlet extends HttpServlet {
       // couldn't find conversation, redirect to conversation list
       response.sendRedirect("/conversations");
       return;
+    }
+    
+    String likeRequested = request.getParameter("like");
+    if (likeRequested != null && likeRequested.equals("true")) {
+        String instance = request.getParameter("instance");
+        String author = request.getParameter("author");
+        Message message = messageStore.getMessage(conversation.getId(), UUID.fromString(author), Instant.parse(instance));
+        //message.incrementLike();
+        if (!message.hasUserLiked(user)) {
+            message.userLikedMessage(user);
+            message.incrementLike();
+        }
+        response.sendRedirect("/chat/" + conversationTitle);
+        return;
     }
 
     String messageContent = request.getParameter("message");
