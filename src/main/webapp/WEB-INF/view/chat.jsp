@@ -43,6 +43,17 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       chatDiv.scrollTop = chatDiv.scrollHeight;
     };
   </script>
+
+  <script type="text/javascript">
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+</script>
+
 </head>
 <body onload="scrollChat()">
 
@@ -82,9 +93,20 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       	<input type="hidden" name="instance" value= <%= instance %>>
       	<input type="hidden" name="like" value="true">
   
-     	<tr align="right">
+     	<tr align="left">
       <td><li><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %> </td>
-      <td><button type="submit">Like</button> </p> <a> <%= message.getLikeCount()%> </a></td> </li>
+      	<div id="popup-box" class="popup-position">
+      		<div id="popup-wrapper"> 
+      			<div id= "popup-container"> 
+      				<h3> Likes </h3>
+      				<p> <a href= "javascript:void(0)" onclick="toggle_visibility('popup-box');"> Close</a></p>
+      			</div>
+      		</div>
+      	</div>
+      	<div id="wrapper">
+      <td><button type="submit">Like</button> </p> 
+      	<a href="javascript:void(0)" onclick="toggle_visibility('popup-box');" > <%= message.getLikeCount()%> </a></td> </li>
+      </div>
   		</tr>
       
     	</form>
