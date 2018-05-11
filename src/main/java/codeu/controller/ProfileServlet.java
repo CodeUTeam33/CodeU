@@ -46,22 +46,23 @@ public class ProfileServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
         
-
         String username = (String) request.getSession().getAttribute("user");
         User user = userStore.getUser(username);
+
         String requestUrl = request.getRequestURI();
-        String ID = requestUrl.substring("/profile/".length());
-        User profileUser = userStore.getUser(UUID.fromString(ID));
-        
+        String iD = requestUrl.substring("/profile/".length());
+        User profileUser = userStore.getUser(iD);
+
+        request.setAttribute("profileID", iD);
+        request.setAttribute("userID", username);
+
         String profileName =  profileUser.getName();
         String profileAboutMe = profileUser.getAboutMe();
-        String profileID = profileUser.getId().toString();
         List<Message> messages = messageStore.getRecentMessages(profileUser.getId(), 50);
         
         request.setAttribute("profile", profileUser);
         request.setAttribute("profileName", profileName);
         request.setAttribute("profileAboutMe", profileAboutMe);
-        request.setAttribute("profileID", profileID);
         request.setAttribute("messages", messages);
 
 
@@ -76,15 +77,20 @@ public class ProfileServlet extends HttpServlet {
         
         String username = (String) request.getSession().getAttribute("user");
         User user = userStore.getUser(username);
-        User profile = (User) request.getAttribute("profile");
         
-        if (!user.getId().equals(profile.getId())) {
-            response.sendRedirect("/profile");
-            return;
+        String requestUrl = request.getRequestURI();
+        String profileTitle = requestUrl.substring("/profile/".length());
+        User profileUser = userStore.getUser(profileTitle);
+
+        if (profileUser == null) {
+          response.sendRedirect("/login");
+          return;
         }
         
         String aboutMe = request.getParameter("aboutme");
-        user.setAboutMe(aboutMe);
+        profileUser.setAboutMe(aboutMe);
+
+        response.sendRedirect("/profile/" + profileTitle);
         
     }
 }

@@ -2,8 +2,10 @@
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Message" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
+<%@ page import="codeu.model.data.User" %>
 
 <%
+User profile = (User) request.getAttribute("profile");
 List<Message> messages = (List<Message>) request.getAttribute("messages");
 %>
 
@@ -64,14 +66,25 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
   <% if(request.getAttribute("profileName") != null){ %>
     <h2>About <%= request.getAttribute("profileName") %></h2>
-    <% if(request.getAttribute("profileAboutMe") != null){ %>
-      <body><%= request.getAttribute("profileAboutMe") %></body>
-
+    <% if(profile.getAboutMe() != null){ %>
+      <body><%= profile.getAboutMe() %></body>
 
       <% } %>
   <% } else { %>
     <h2>Invalid</h2>
   <% } %>
+
+    <%if(((String)request.getSession().getAttribute("userID")).equals(request.getAttribute("profileID"))){  %>
+
+   <form action="/profile/<%= profile.getName() %>" method="POST">
+     <label for="aboutme">About Me: </label>
+     <input type="text" name="aboutme">
+     <br/><br/>
+     <button type="submit">Edit</button>
+   </form>
+   <% } else { %>
+    <% } %>
+
     <hr/>
 	
 	    <div id="chat">
@@ -91,17 +104,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     %>
       </ul>
     </div>
-	<%if(((String)request.getSession().getAttribute("userID")).equals(request.getAttribute("profileID"))){  %>
-
-   <form action="/profile/"<%= request.getAttribute("userID") %> method="POST">
-     <label for="aboutme">About Me: </label>
-     <input type="text" name="aboutme" id="aboutme">
-     <br/><br/>
-     <button type="submit">Edit</button>
-   </form>
-   <%} 
-   else{}%>
-   
 
 </div>
 </body>
