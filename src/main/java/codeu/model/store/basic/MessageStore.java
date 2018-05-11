@@ -110,10 +110,15 @@ public class MessageStore {
 
   /** Sets the List of Messages stored by this MessageStore. */
   public void setMessages(List<Message> messages) {
+	  this.messages = messages;
+	  checkMessagesForTags();
+  }
+  
+  private void checkMessagesForTags(){
 	  for(int i = 0; i < messages.size(); i++){
-		  addMessage(messages.get(i));
+		  System.out.println(messages.get(i));
+		  parseMessage(messages.get(i));
 	  }
-    //this.messages = messages;
   }
   
   public List<Message> getRecentMessages(UUID authorID, int recent){
