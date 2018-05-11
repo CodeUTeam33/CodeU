@@ -46,7 +46,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
  </nav>
   <div id="container">
 
-    <h1><%= conversation.getTitle() %>
+    <h1><%= hashtag%>
       <a href="" style="float: right">&#8635;</a></h1>
 
     <hr/>

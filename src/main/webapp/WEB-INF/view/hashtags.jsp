@@ -1,5 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="codeu.model.data.Conversation" %>
+<%@ page import="codeu.model.store.basic.MessageStore" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -41,8 +43,8 @@
     <%
       for(String hashtag : hashtags){
     %>
-      <li><a href="/hashtag/<%= hashtag.getTag() %>">
-        <%= tag.getTag() %></a></li>
+      <li><a href="/hashtag/<%= hashtag %>">
+        <%= hashtag %></a></li>
     <%
       }
     %>

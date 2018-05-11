@@ -170,5 +170,11 @@ public class MessageStore {
 	  return hashTags.get(tag);
   }
   
+  public List<String> getTags(){
+	  List<String> tags = new ArrayList<>();
+	  tags.addAll(hashTags.keySet());
+	  return tags;
+			  
+  }
 }
 

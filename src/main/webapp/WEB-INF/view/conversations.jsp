@@ -35,6 +35,7 @@
      <a href="/register">Register</a>
    <% } %>
    <a href="/about.jsp">About</a>
+   <a href="/hashtags.jsp">Hashtags</a>
  </nav>
 
   <div id="container">
