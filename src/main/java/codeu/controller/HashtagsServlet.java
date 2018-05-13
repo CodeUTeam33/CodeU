@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import codeu.model.data.Message;
 import codeu.model.store.basic.MessageStore;
 
+/** This servlet will service the home page for all of the different hashtags*/
 public class HashtagsServlet  extends HttpServlet{
 
     
@@ -30,7 +31,7 @@ public class HashtagsServlet  extends HttpServlet{
  }
    
 /**
-    * Get the profile page
+    * Get the hashtags that are in use
     */
    @Override
    public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,7 +43,6 @@ public class HashtagsServlet  extends HttpServlet{
        request.getRequestDispatcher("/WEB-INF/view/hashtags.jsp").forward(request, response);
    }
    /**
-    * Change about me
     */
    @Override
    public void doPost(HttpServletRequest request, HttpServletResponse response)

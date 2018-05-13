@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import codeu.model.data.Message;
 import codeu.model.store.basic.MessageStore;
 
+/** This will service individual hashtags showing all of the messages they have been used in*/
 public class HashtagServlet extends HttpServlet{
      
      /** Store class that gives access to Messages. */
