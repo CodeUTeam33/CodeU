@@ -23,6 +23,7 @@
      <a href="/register">Register</a>
    <% } %>
    <a href="/about.jsp">About</a>
+   <a href="/hashtags">Hashtags</a>
  </nav>
 
   <div id="container">
@@ -30,8 +31,7 @@
     <h1>Hashtags</h1>
 
     <%
-    List<String> hashtags =
-      (List<String>) request.getAttribute("hashtags");
+    List<String> hashtags = (List<String>) request.getAttribute("hashtags");
     if(hashtags == null || hashtags.isEmpty()){
     %>
       <p>Use the '#' in a conversation to get hashtags started.</p>

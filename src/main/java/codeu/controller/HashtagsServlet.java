@@ -35,13 +35,10 @@ public class HashtagsServlet  extends HttpServlet{
    @Override
    public void doGet(HttpServletRequest request, HttpServletResponse response)
        throws IOException, ServletException {
-       
 
        List<String> tags = messageStore.getTags();
        
        request.setAttribute("hashtags", tags);
-
-
        request.getRequestDispatcher("/WEB-INF/view/hashtags.jsp").forward(request, response);
    }
    /**
