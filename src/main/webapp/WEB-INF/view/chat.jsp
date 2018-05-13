@@ -55,6 +55,19 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 </script>
 
 </head>
+<!--
+<div id="popup-box" class="popup-position">
+          <div id="popup-wrapper"> 
+            <div id= "popup-container"> 
+              <h3> Likes </h3>
+              <p> testing this text </p>
+              <p> <%="count"%> </p>
+              <p> line 3 </p>
+              <p> <a href= "javascript:void(0)" onclick="toggle_visibility('popup-box');"> Close</a></p>
+            </div>
+          </div>
+        </div> -->
+
 <body onload="scrollChat()">
 
 <nav>
@@ -93,26 +106,31 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       	<input type="hidden" name="instance" value= <%= instance %>>
       	<input type="hidden" name="like" value="true">
   
-     	<tr align="left">
-      <td><li><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %> </td>
-      	<div id="popup-box" class="popup-position">
-      		<div id="popup-wrapper"> 
-      			<div id= "popup-container"> 
-      				<h3> Likes </h3>
-      				<p> <a href= "javascript:void(0)" onclick="toggle_visibility('popup-box');"> Close</a></p>
-      			</div>
-      		</div>
-      	</div>
-      	<div id="wrapper">
-      <td><button type="submit">Like</button> </p> 
-      	<a href="javascript:void(0)" onclick="toggle_visibility('popup-box');" > <%= message.getLikeCount()%> </a></td> </li>
-      </div>
-  		</tr>
+     	<table border="0">
+      <tr>
+      <td align="center"><div>
+      <button type="submit">Like</button> <br />
+      <%= message.getLikeCount()%>
+    </div></td>
+
+      <td valign="center"><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %> </td>
+      	
+      </tr>
+      <!-- <tr>
+        <td align="center" valign="top"><%= message.getLikeCount()%></td>
+        <div id="wrapper">
+        <a href="javascript:void(0)" onclick="toggle_visibility('popup-box');" > <%= message.getLikeCount()%> </a>
+      </div> 
+      </tr> -->
+      <tr> <br /></tr>
+    </table>
       
     	</form>
+
     <%
       }
     %>
+
       </ul>
     </div>
 
