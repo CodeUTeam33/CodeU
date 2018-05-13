@@ -86,6 +86,8 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <% } %>
 
     <hr/>
+
+    <h2><%= request.getAttribute("profileName") %>'s Sent Messages</h2>
 	
 	    <div id="chat">
       <ul>
