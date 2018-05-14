@@ -116,7 +116,6 @@ public class MessageStore {
   
   private void checkMessagesForTags(){
 	  for(int i = 0; i < messages.size(); i++){
-		  System.out.println(messages.get(i));
 		  parseMessage(messages.get(i));
 	  }
   }
@@ -170,5 +169,11 @@ public class MessageStore {
 	  return hashTags.get(tag);
   }
   
+  public List<String> getTags(){
+	  List<String> tags = new ArrayList<>();
+	  tags.addAll(hashTags.keySet());
+	  return tags;
+			  
+  }
 }
 

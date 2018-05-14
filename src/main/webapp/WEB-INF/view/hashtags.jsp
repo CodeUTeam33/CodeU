@@ -1,5 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="codeu.model.data.Conversation" %>
+<%@ page import="codeu.model.store.basic.MessageStore" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -28,8 +30,7 @@
     <h1>Hashtags</h1>
 
     <%
-    List<String> hashtags =
-      (List<String>) request.getAttribute("hashtags");
+    List<String> hashtags = (List<String>) request.getAttribute("hashtags");
     if(hashtags == null || hashtags.isEmpty()){
     %>
       <p>Use the '#' in a conversation to get hashtags started.</p>
@@ -41,8 +42,8 @@
     <%
       for(String hashtag : hashtags){
     %>
-      <li><a href="/hashtag/<%= hashtag.getTag() %>">
-        <%= tag.getTag() %></a></li>
+      <li><a href="/hashtag/<%= hashtag %>">
+        <%= hashtag %></a></li>
     <%
       }
     %>

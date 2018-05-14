@@ -30,6 +30,7 @@
    <% if(request.getSession().getAttribute("user") != null){ %>
      <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
      <a href=<%= "/profile/" + request.getSession().getAttribute("userID") %>>Profile</a>
+     <a href="/hashtags">Hashtags</a>
    <% } else{ %>
      <a href="/login">Login</a>
      <a href="/register">Register</a>

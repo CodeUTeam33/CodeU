@@ -43,10 +43,11 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
      <a href="/register">Register</a>
    <% } %>
    <a href="/about.jsp">About</a>
+   <a href="/hashtags">Hashtags</a>
  </nav>
   <div id="container">
 
-    <h1><%= conversation.getTitle() %>
+    <h1><%= hashtag%>
       <a href="" style="float: right">&#8635;</a></h1>
 
     <hr/>

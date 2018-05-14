@@ -48,6 +48,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
      <a href="/login">Login</a>
      <a href="/register">Register</a>
    <% } %>
+   <a href="/hashtags">Hashtags</a>
    <a href="/about.jsp">About</a>
    
  </nav>
@@ -93,9 +94,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       for (Message message : messages) {
         String author = UserStore.getInstance()
           .getUser(message.getAuthorId()).getName();
-        String ID = UserStore.getInstance()
-                .getUser(message.getAuthorId()).getId().toString();
-        String URL = "/profile/" + ID;
+        String URL = "/profile/" + author;
     %>
     	
       <li><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %></li>
