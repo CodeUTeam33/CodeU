@@ -44,29 +44,8 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     };
   </script>
 
-  <script type="text/javascript">
-    function toggle_visibility(id) {
-       var e = document.getElementById(id);
-       if(e.style.display == 'block')
-          e.style.display = 'none';
-       else
-          e.style.display = 'block';
-    }
-</script>
 
 </head>
-<!--
-<div id="popup-box" class="popup-position">
-          <div id="popup-wrapper"> 
-            <div id= "popup-container"> 
-              <h3> Likes </h3>
-              <p> testing this text </p>
-              <p> <%="count"%> </p>
-              <p> line 3 </p>
-              <p> <a href= "javascript:void(0)" onclick="toggle_visibility('popup-box');"> Close</a></p>
-            </div>
-          </div>
-        </div> -->
 
 <body onload="scrollChat()">
 
@@ -116,12 +95,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       <td valign="center"><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %> </td>
       	
       </tr>
-      <!-- <tr>
-        <td align="center" valign="top"><%= message.getLikeCount()%></td>
-        <div id="wrapper">
-        <a href="javascript:void(0)" onclick="toggle_visibility('popup-box');" > <%= message.getLikeCount()%> </a>
-      </div> 
-      </tr> -->
+    
       <tr> <br /></tr>
     </table>
       

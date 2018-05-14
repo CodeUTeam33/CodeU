@@ -118,7 +118,6 @@ public class ChatServlet extends HttpServlet {
       throws IOException, ServletException {
 
     String username = (String) request.getSession().getAttribute("user");
-    request.setAttribute("image", "like.png");
     if (username == null) {
       // user is not logged in, don't let them add a message
       response.sendRedirect("/login");
@@ -131,7 +130,6 @@ public class ChatServlet extends HttpServlet {
       response.sendRedirect("/login");
       return;
     }
-    
 
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
@@ -148,7 +146,7 @@ public class ChatServlet extends HttpServlet {
         String instance = request.getParameter("instance");
         String author = request.getParameter("author");
         Message message = messageStore.getMessage(conversation.getId(), UUID.fromString(author), Instant.parse(instance));
-        //message.incrementLike();
+        
         if (!message.hasUserLiked(user)) {
             message.userLikedMessage(user);
             message.incrementLike();
