@@ -2,8 +2,10 @@
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Message" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
+<%@ page import="codeu.model.data.User" %>
 
 <%
+User profile = (User) request.getAttribute("profile");
 List<Message> messages = (List<Message>) request.getAttribute("messages");
 %>
 
@@ -46,6 +48,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
      <a href="/login">Login</a>
      <a href="/register">Register</a>
    <% } %>
+   <a href="/hashtags">Hashtags</a>
    <a href="/about.jsp">About</a>
    
  </nav>
@@ -64,14 +67,25 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
   <% if(request.getAttribute("profileName") != null){ %>
     <h2>About <%= request.getAttribute("profileName") %></h2>
-    <% if(request.getAttribute("profileAboutMe") != null){ %>
-      <body><%= request.getAttribute("profileAboutMe") %></body>
-
+    <% if(profile.getAboutMe() != null){ %>
+      <body><%= profile.getAboutMe() %></body>
 
       <% } %>
   <% } else { %>
     <h2>Invalid</h2>
   <% } %>
+
+    <%if(((String)request.getSession().getAttribute("userID")).equals(request.getAttribute("profileID"))){  %>
+
+   <form action="/profile/<%= profile.getName() %>" method="POST">
+     <label for="aboutme">About Me: </label>
+     <input type="text" name="aboutme">
+     <br/><br/>
+     <button type="submit">Edit</button>
+   </form>
+   <% } else { %>
+    <% } %>
+
     <hr/>
 	
 	    <div id="chat">
@@ -80,9 +94,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       for (Message message : messages) {
         String author = UserStore.getInstance()
           .getUser(message.getAuthorId()).getName();
-        String ID = UserStore.getInstance()
-                .getUser(message.getAuthorId()).getId().toString();
-        String URL = "/profile/" + ID;
+        String URL = "/profile/" + author;
     %>
     	
       <li><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %></li>
@@ -91,6 +103,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     %>
       </ul>
     </div>
+
     <% if(request.getSession().getAttribute("user") != null) { %>
 	<%if(((String)request.getSession().getAttribute("userID")).equals(request.getAttribute("profileID"))){  %>
 
@@ -106,6 +119,8 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         <p><a href="/login">Login</a> to send a message.</p>
     <% } %>
    
+=======
+
 
 </div>
 </body>

@@ -28,7 +28,7 @@ public class MessageStoreTest {
           UUID.randomUUID(),
           CONVERSATION_ID_ONE,
           USER_ONE_ID,
-          "message one",
+          "message one #testTag",
           Instant.ofEpochMilli(1000));
   private final Message MESSAGE_TWO =
       new Message(
@@ -42,7 +42,7 @@ public class MessageStoreTest {
           UUID.randomUUID(),
           UUID.randomUUID(),
           UUID.randomUUID(),
-          "message three",
+          "message three #testTag",
           Instant.ofEpochMilli(3000));
   private final Message MESSAGE_FOUR =
 	  new Message(
@@ -122,5 +122,12 @@ public class MessageStoreTest {
 		  Assert.assertEquals(testMessage, expectedMessage);
 	  }
 	  
+  }
+  
+  @Test
+  public void testHashTag(){
+	  List<Message> expected = messageStore.getHashTagMessages("testTag");
+	  Assert.assertEquals(expected.get(0), MESSAGE_ONE);
+	  Assert.assertEquals(expected.get(1), MESSAGE_THREE);
   }
 }

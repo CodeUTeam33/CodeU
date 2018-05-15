@@ -16,6 +16,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Message" %>
+<%@ page import="codeu.model.data.User" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
 <%
 Conversation conversation = (Conversation) request.getAttribute("conversation");
@@ -55,6 +56,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
    <% if(request.getSession().getAttribute("user") != null){ %>
      <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
      <a href=<%= "/profile/" + request.getSession().getAttribute("userID") %>>Profile</a>
+     <a href="/hashtags">Hashtags</a>
    <% } else{ %>
      <a href="/login">Login</a>
      <a href="/register">Register</a>
@@ -73,11 +75,15 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <%
       for (Message message : messages) {
         String author = UserStore.getInstance()
+
           .getUser(message.getAuthorId()).getName();
         String ID = UserStore.getInstance()
                 .getUser(message.getAuthorId()).getId().toString();
         String URL = "/profile/" + ID;
         String instance = message.getCreationTime().toString();
+=======
+        		.getUser(message.getAuthorId()).getName();
+
     %>
 
       <form action="/chat/<%= conversation.getTitle() %>" method="POST">

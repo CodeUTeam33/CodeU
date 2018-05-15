@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
       String tempPassword = user.getPassword();
       if(BCrypt.checkpw(password, tempPassword)) {
         request.getSession().setAttribute("user", username);
-        request.getSession().setAttribute("userID", user.getId().toString());
+        request.getSession().setAttribute("userID", username);
         response.sendRedirect("/conversations");
       }
       else {
