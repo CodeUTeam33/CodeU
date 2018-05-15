@@ -79,7 +79,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
           .getUser(message.getAuthorId()).getName();
         String ID = UserStore.getInstance()
                 .getUser(message.getAuthorId()).getId().toString();
-        String URL = "/profile/" + ID;
+        String URL = "/profile/" + author;
         String instance = message.getCreationTime().toString();
 =======
         		.getUser(message.getAuthorId()).getName();
