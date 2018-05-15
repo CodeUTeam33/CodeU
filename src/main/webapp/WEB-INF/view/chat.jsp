@@ -74,15 +74,10 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       <ul>
     <%
       for (Message message : messages) {
-        String author = UserStore.getInstance()
-
-          .getUser(message.getAuthorId()).getName();
-        String ID = UserStore.getInstance()
-                .getUser(message.getAuthorId()).getId().toString();
+        String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
+        String ID = UserStore.getInstance().getUser(message.getAuthorId()).getId().toString();
         String URL = "/profile/" + author;
         String instance = message.getCreationTime().toString();
-=======
-        		.getUser(message.getAuthorId()).getName();
 
     %>
 

@@ -75,15 +75,19 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <h2>Invalid</h2>
   <% } %>
 
-    <%if(((String)request.getSession().getAttribute("userID")).equals(request.getAttribute("profileID"))){  %>
+<% if(request.getSession().getAttribute("user") != null) { %>
+  <%if(((String)request.getSession().getAttribute("userID")).equals(request.getAttribute("profileID"))){  %>
 
-   <form action="/profile/<%= profile.getName() %>" method="POST">
+   <form action="/profile/"<%= request.getAttribute("userID") %> method="POST">
      <label for="aboutme">About Me: </label>
-     <input type="text" name="aboutme">
+     <input type="text" name="aboutme" id="aboutme">
      <br/><br/>
      <button type="submit">Edit</button>
    </form>
+   <%} 
+   else{}%>
    <% } else { %>
+        <p><a href="/login">Login</a> to send a message.</p>
     <% } %>
 
     <hr/>
@@ -103,24 +107,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     %>
       </ul>
     </div>
-
-    <% if(request.getSession().getAttribute("user") != null) { %>
-	<%if(((String)request.getSession().getAttribute("userID")).equals(request.getAttribute("profileID"))){  %>
-
-   <form action="/profile/"<%= request.getAttribute("userID") %> method="POST">
-     <label for="aboutme">About Me: </label>
-     <input type="text" name="aboutme" id="aboutme">
-     <br/><br/>
-     <button type="submit">Edit</button>
-   </form>
-   <%} 
-   else{}%>
-   <% } else { %>
-        <p><a href="/login">Login</a> to send a message.</p>
-    <% } %>
-   
-=======
-
 
 </div>
 </body>
