@@ -44,7 +44,10 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       chatDiv.scrollTop = chatDiv.scrollHeight;
     };
   </script>
+
+
 </head>
+
 <body onload="scrollChat()">
 
 <nav>
@@ -71,15 +74,38 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       <ul>
     <%
       for (Message message : messages) {
-        String author = UserStore.getInstance()
-        		.getUser(message.getAuthorId()).getName();
+        String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
+        String ID = UserStore.getInstance().getUser(message.getAuthorId()).getId().toString();
         String URL = "/profile/" + author;
+        String instance = message.getCreationTime().toString();
+
     %>
-    	
-      <li><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %></li>
+
+      <form action="/chat/<%= conversation.getTitle() %>" method="POST">
+      	<input type="hidden" name="author" value= <%= ID %>>
+      	<input type="hidden" name="instance" value= <%= instance %>>
+      	<input type="hidden" name="like" value="true">
+  
+     	<table border="0">
+      <tr>
+      <td align="center"><div>
+      <button type="submit">Like</button> <br />
+      <%= message.getLikeCount()%>
+    </div></td>
+
+      <td valign="center"><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %> </td>
+      	
+      </tr>
+    
+      <tr> <br /></tr>
+    </table>
+      
+    	</form>
+
     <%
       }
     %>
+
       </ul>
     </div>
 
