@@ -81,6 +81,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
    <form action="/profile/"<%= request.getAttribute("userID") %> method="POST">
      <label for="aboutme">About Me: </label>
      <input type="text" name="aboutme" id="aboutme">
+     <input type="hidden" name="profileID" value=<%= request.getAttribute("profileID")%>>
      <br/><br/>
      <button type="submit">Edit</button>
    </form>
