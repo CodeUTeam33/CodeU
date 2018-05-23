@@ -21,12 +21,13 @@
 <%
 Conversation conversation = (Conversation) request.getAttribute("conversation");
 List<Message> messages = (List<Message>) request.getAttribute("messages");
+Message popupMessage = (Message) request.getAttribute("message");
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= conversation.getTitle() %></title>
+  <title>Likes</title>
   <link rel="stylesheet" href="/css/main.css" type="text/css">
 
   <style>
@@ -65,6 +66,24 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
  </nav>
   <div id="container">
 
+    <div id="popup-box" class="popup-position">
+          <div id="popup-wrapper"> 
+            <div id= "popup-container"> 
+              <h3> Likes </h3>
+              <%
+                List<User> userLikes = popupMessage.getUserLikes();
+                for (User user : userLikes) {
+                  %>
+                  <div>
+                  <a><%=user.getName()%></a>
+                  </div>
+
+              <% } %>
+              <p> <a href= "/chat/<%= conversation.getTitle() %>"> Close</a></p>
+            </div>
+          </div>
+        </div>
+
     <h1><%= conversation.getTitle() %>
       <a href="" style="float: right">&#8635;</a></h1>
 
@@ -78,7 +97,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         String ID = UserStore.getInstance().getUser(message.getAuthorId()).getId().toString();
         String URL = "/profile/" + author;
         String instance = message.getCreationTime().toString();
-        String messageID = "/likes/" + conversation.getId().toString() + "/"+ message.getId().toString();
 
     %>
 
@@ -91,7 +109,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       <tr>
       <td align="center"><div>
       <button type="submit">Like</button> <br />
-      <a href= <%= messageID %>><%= message.getLikeCount()%></a>
+      <%= message.getLikeCount()%>
     </div></td>
 
       <td valign="center"><strong><a href= <%= URL %> ><%= author %></a>:</strong> <%= message.getContent() %> </td>
