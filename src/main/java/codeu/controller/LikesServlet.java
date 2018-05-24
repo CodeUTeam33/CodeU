@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet class responsible for popup displaying the users who have liked a message.
+ */
 public class LikesServlet extends HttpServlet {
     
     /** Store class that gives access to Conversations. */
@@ -56,7 +59,10 @@ public class LikesServlet extends HttpServlet {
     void setUserStore(UserStore userStore) {
         this.userStore = userStore;
     }
-    
+    /** 
+     * This function fires when the users clicks on the number of likes to the left of a message.
+     * It obtains the conversation and message IDs from the URL and it redirects to likes.jsp to display the popup.
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
