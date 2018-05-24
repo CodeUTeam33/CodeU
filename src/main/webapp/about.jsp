@@ -28,7 +28,7 @@
       <a href="/login">Login</a>
       <a href="/register">Register</a>
     <% } else { %>
-    <a href="/hashtags">Hashtags</a>
+      <a href="/hashtags">Hashtags</a>
     <% } %>
     <a href="/about.jsp">About</a>
 
