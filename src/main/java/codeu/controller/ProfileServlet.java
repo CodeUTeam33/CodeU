@@ -83,10 +83,10 @@ public class ProfileServlet extends HttpServlet {
         String username = (String) request.getSession().getAttribute("user");
         User user = userStore.getUser(username);
         
-        String requestUrl = request.getRequestURI();
-        String profileTitle = requestUrl.substring("/profile/".length());
-        User profileUser = userStore.getUser(profileTitle);
+        String profile = request.getParameter("profileID");
+        User profileUser = userStore.getUser(profile);
 
+        
         if (profileUser == null) {
           response.sendRedirect("/login");
           return;
@@ -95,7 +95,7 @@ public class ProfileServlet extends HttpServlet {
         String aboutMe = request.getParameter("aboutme");
         profileUser.setAboutMe(aboutMe);
 
-        response.sendRedirect("/profile/" + profileTitle);
+        response.sendRedirect("/profile/" + profile);
         
     }
 }
