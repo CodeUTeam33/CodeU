@@ -112,6 +112,16 @@ public class ConversationStore {
     }
     return null;
   }
+  
+    /** Find and return the Conversation with the given title. */
+  public Conversation getConversationWithID(String ID) {
+    for (Conversation conversation : conversations) {
+      if (conversation.getId().toString().equals(ID)) {
+        return conversation;
+      }
+    }
+    return null;
+  }
 
   /** Sets the List of Conversations stored by this ConversationStore. */
   public void setConversations(List<Conversation> conversations) {
